@@ -27,7 +27,30 @@ def Summary():
         line_count += 1
     print(f"Total steps: {total}")
     print(f"Average steps: {total/line_count}")
+
+
+def Streak(x):
+    file.seek(0)
+    streak_count = 0
+    list1 = []
+    # for removing newline characters and adding values to a new list
+    for line in file:
+        if line[-1] == '\n':
+            list1.append(line[:-1])
+        else:
+            list1.append(line)
+    for item in list1:
+        num_steps1 = int(item[11:])
+        if x > num_steps1:
+            streak_count += 1
+        else:
+            streak_count += 0
+    print(f"Longest streak: {streak_count} days")
+        
+
+
     
+
 
 def Main(): # main function dealing with user interface
     print("Welcome to FitBuddy - StepTracker")
@@ -41,8 +64,17 @@ def Main(): # main function dealing with user interface
             ShowAll()
         elif command == "show summary":
             Summary()
+        elif command == "goal":
+            if command.startswith("goal"):
+                parts = command.strip()
+                if len(parts) == 2 and parts[1].isdigit():
+                    goal_steps = parts[1]
+                    Streak(goal_steps)
+                else:
+                    print("Please enter a valid number!")
         else:
             print("Please enter a valid command!")
+        
             
         
 
