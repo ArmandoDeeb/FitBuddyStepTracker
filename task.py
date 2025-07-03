@@ -25,8 +25,8 @@ def Summary():
         num_steps = int(item[11:])
         total += num_steps
         line_count += 1
-    print(total)
-    print(total/line_count)
+    print(f"Total steps: {total}")
+    print(f"Average steps: {total/line_count}")
     
 
 def Main(): # main function dealing with user interface
