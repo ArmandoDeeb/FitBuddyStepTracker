@@ -46,10 +46,35 @@ def Streak(x):
         else:
             streak_count += 0
     print(f"Longest streak: {streak_count} days")
-        
+
+
+def Progress(y):
+    file.seek(0)
+    goal_met_count = 0 # days in which step goal was met
+    num_lines = 0 # to track total number of days
+    list2 = []
+     # for removing newline characters and adding values to a new list
+    for line in file:
+        if line[-1] == '\n':
+            list2.append(line[:-1])
+            num_lines += 1
+        else:
+            list2.append(line)
+            num_lines += 1
+
+    for item in list2:
+        num_steps2 = int(item[11:])
+        if y > num_steps2:
+            goal_met_count += 1
+        else:
+            goal_met_count += 0
+    print(f"Met goal on {goal_met_count} out of {num_lines} days")
+
 
 
     
+
+
 
 
 def Main(): # main function dealing with user interface
@@ -64,14 +89,17 @@ def Main(): # main function dealing with user interface
             ShowAll()
         elif command == "show summary":
             Summary()
-        elif command == "goal":
-            if command.startswith("goal"):
-                parts = command.strip()
-                if len(parts) == 2 and parts[1].isdigit():
-                    goal_steps = parts[1]
-                    Streak(goal_steps)
+        elif command.startswith("goal"):
+                parts = command.split() # splits command into two parts, so we can access the second value as the goal steps
+                if len(parts) == 2 and parts[1].isdigit(): # checks if length of parts is two, and second part is a number
+                    goal_steps = int(parts[1]) # assign the goal number of steps as the second part of the command
+                    Streak(goal_steps) # passing in goal_steps into the Streak function
                 else:
                     print("Please enter a valid number!")
+        elif command == "progress": # need to add try/except - try to compute, but if goal hasn't been entered in it, provide error message asking user to enter in goal
+            a = goal_steps
+            Progress(a)
+
         else:
             print("Please enter a valid command!")
         
