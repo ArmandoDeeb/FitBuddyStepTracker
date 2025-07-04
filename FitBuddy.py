@@ -97,15 +97,18 @@ def Main(): # main function dealing with user interface
                 else:
                     print("Please enter a valid number!")
         elif command == "progress": # need to add try/except - try to compute, but if goal hasn't been entered in it, provide error message asking user to enter in goal
-            a = goal_steps
-            Progress(a)
+            try:
+                a = goal_steps
+                Progress(a)
+            except UnboundLocalError:
+                print("Please enter your goal amount of steps first!")
+
 
         else:
             print("Please enter a valid command!")
         
             
         
-
 Main()
 
     
