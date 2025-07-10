@@ -89,8 +89,24 @@ def simulate(x):
             new_line = f"\n{year}-{month:02}-{formatted_day},{steps}"
             file.write(new_line)
         
-
+""" - old simulate function (error)
+def simulate(x):
     
+    with open('test_log.txt', 'r') as file:
+        lines = file.readlines()
+               
+    with open('test_log.txt', 'a') as file:
+        last_line = lines[-1].strip()
+        last_date = last_line.strip().split(',')[0]
+        for i in range(0,x):
+            day = int(last_date.strip().split('-')[2]) + 1
+            formatted = f"{day:02}"
+            steps = random.randint(4000,12000)
+            text = f"\n2025-06-{formatted},{steps}"
+            file.write(text)
+            last_line = lines[-1].strip()
+            last_date = last_line.strip().split(',')[0]
+    """
 
     
 
