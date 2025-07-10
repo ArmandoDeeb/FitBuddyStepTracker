@@ -1,3 +1,4 @@
+import random
 try: # see if the file exists
     file = open('test_log.txt', 'r') 
 except FileNotFoundError: 
@@ -71,14 +72,38 @@ def Progress(y):
     print(f"Met goal on {goal_met_count} out of {num_lines} days")
 
 
+def simulate(x):
+
+    with open('test_log.txt', 'r') as file:
+        lines = file.readlines()
+        last_line = lines[-1].strip()
+        last_date = last_line.strip().split(',')[0]
+    
+    year, month, day = map(int, last_date.split('-')) 
+               
+    with open('test_log.txt', 'a') as file:
+        for i in range(x):
+            day += 1
+            formatted_day = f"{day:02}"
+            steps = random.randint(4000,12000)
+            new_line = f"\n{year}-{month:02}-{formatted_day},{steps}"
+            file.write(new_line)
+        
+
+    
 
     
 
 
 
-
 def Main(): # main function dealing with user interface
     print("Welcome to FitBuddy - StepTracker")
+    text = "2025-06-01,4567\n2025-06-02,6290\n2025-06-03,7100\n2025-06-04,7500\n2025-06-05,9120"
+    with open('test_log.txt','w') as file:
+        file.write(text)
+
+
+
     while True:
         
         command = input("< ")
@@ -96,12 +121,20 @@ def Main(): # main function dealing with user interface
                     Streak(goal_steps) # passing in goal_steps into the Streak function
                 else:
                     print("Please enter a valid number!")
-        elif command == "progress": # need to add try/except - try to compute, but if goal hasn't been entered in it, provide error message asking user to enter in goal
+        elif command == "progress":
             try:
                 a = goal_steps
                 Progress(a)
             except UnboundLocalError:
                 print("Please enter your goal amount of steps first!")
+
+        elif command.startswith("simulate"):
+            parts1 = command.split()
+            if len(parts1) == 2 and parts1[1].isdigit():
+                new_entries = int(parts1[1])
+                simulate(new_entries)
+            else:
+                print("please enter a number")
 
 
         else:
