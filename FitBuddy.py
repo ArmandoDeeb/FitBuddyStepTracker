@@ -88,6 +88,37 @@ def simulate(x):
             steps = random.randint(4000,12000)
             new_line = f"\n{year}-{month:02}-{formatted_day},{steps}"
             file.write(new_line)
+
+def recommended():
+    file.seek(0)
+    list3 = []
+    total_steps = 0
+    for line in file:
+        if line[-1] == '\n':
+            list3.append(line[:-1])
+           
+        else:
+            list3.append(line)
+
+    for entry in list3[-5:]:
+        data, steps = entry.split(",")
+        total_steps += int(steps)
+    
+    if total_steps / 5 > 9000:
+        print("You're doing great! Keep it up!")
+    
+    elif 7000 < total_steps / 5 <= 9000:
+        print("Great job! Let's aim for 9000+")
+    
+    else:
+        print("Time to step up! Try reaching your goal!")
+    
+
+        
+    
+           
+
+
         
 """ - old simulate function (error)
 def simulate(x):
@@ -151,6 +182,9 @@ def Main(): # main function dealing with user interface
                 simulate(new_entries)
             else:
                 print("please enter a number")
+        
+        elif command == "recommended":
+            recommended()
 
 
         else:
