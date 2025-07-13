@@ -95,8 +95,7 @@ def recommended():
     total_steps = 0
     for line in file:
         if line[-1] == '\n':
-            list3.append(line[:-1])
-           
+            list3.append(line[:-1]) 
         else:
             list3.append(line)
 
@@ -192,7 +191,8 @@ def Main(): # main function dealing with user interface
         
             
         
-Main()
+if __name__ == "main":
+    Main()
 
     
 
