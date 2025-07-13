@@ -1,83 +1,66 @@
 import random
-try: # see if the file exists
-    file = open('test_log.txt', 'r') 
-except FileNotFoundError: 
-    print("No file found - exiting now") # print this message if the file does not exist
-    exit() 
+
+def read_log():
+    with open('test_log.txt', 'r') as file:
+        return[line.strip() for line in file]
+
+
 
 def ShowAll():
-    overview = file.read()
-    print(overview)
-    file.seek(0) # returns the pointer back to the start of the file
+    lines = read_log()
+    for line in lines:
+        print(line)
         
 def Summary():
-    file.seek(0) # returns the pointer back to the start of the file
     total = 0
     line_count = 0
-    list = []  
-    # removing newline characters and adding values to a new list
-    for line in file: 
-        if line[-1] == '\n': 
-            list.append(line[:-1])
-        else:
-            list.append(line)
+    lines = read_log()
     # for every entry in the list, access the number to compute num_steps and total
-    for item in list:
-        num_steps = int(item[11:])
-        total += num_steps
+    for line in lines:
+        date, steps = line.split(",")
+        total += int(steps)
         line_count += 1
     print(f"Total steps: {total}")
     print(f"Average steps: {total/line_count}")
 
 
 def Streak(x):
-    file.seek(0)
-    streak_count = 0
-    list1 = []
-    # for removing newline characters and adding values to a new list
-    for line in file:
-        if line[-1] == '\n':
-            list1.append(line[:-1])
+    lines = read_log()
+    current_streak = 0
+    largest_streak = 0
+    for line in lines:
+        date, steps = line.split(",")
+        if int(steps) >= x:
+            current_streak += 1
+            largest_streak = max(largest_streak, current_streak)
         else:
-            list1.append(line)
-    for item in list1:
-        num_steps1 = int(item[11:])
-        if x > num_steps1:
-            streak_count += 1
-        else:
-            streak_count += 0
-    print(f"Longest streak: {streak_count} days")
+            current_streak = 0
+    print(f"Longest streak: {largest_streak} days")
 
 
 def Progress(y):
-    file.seek(0)
     goal_met_count = 0 # days in which step goal was met
     num_lines = 0 # to track total number of days
-    list2 = []
-     # for removing newline characters and adding values to a new list
-    for line in file:
-        if line[-1] == '\n':
-            list2.append(line[:-1])
+    lines = read_log()
+    for line in lines:
             num_lines += 1
-        else:
-            list2.append(line)
-            num_lines += 1
+            date, steps = line.split(",")
+            num_steps = int(steps)
+            if y > num_steps:
+                goal_met_count += 1
+            else:
+                goal_met_count += 0
 
-    for item in list2:
-        num_steps2 = int(item[11:])
-        if y > num_steps2:
-            goal_met_count += 1
-        else:
-            goal_met_count += 0
     print(f"Met goal on {goal_met_count} out of {num_lines} days")
 
 
 def simulate(x):
 
-    with open('test_log.txt', 'r') as file:
-        lines = file.readlines()
-        last_line = lines[-1].strip()
-        last_date = last_line.strip().split(',')[0]
+   
+    lines = read_log()
+    
+    last_line = lines[-1]
+    last_date = last_line.split(',')[0]
     
     year, month, day = map(int, last_date.split('-')) 
                
@@ -90,17 +73,10 @@ def simulate(x):
             file.write(new_line)
 
 def recommended():
-    file.seek(0)
-    list3 = []
+    lines = read_log()
     total_steps = 0
-    for line in file:
-        if line[-1] == '\n':
-            list3.append(line[:-1]) 
-        else:
-            list3.append(line)
-
-    for entry in list3[-5:]:
-        data, steps = entry.split(",")
+    for line in lines[-5:]:
+        data, steps = line.split(",")
         total_steps += int(steps)
     
     if total_steps / 5 > 9000:
@@ -191,7 +167,7 @@ def Main(): # main function dealing with user interface
         
             
         
-if __name__ == "main":
+if __name__ == "__main__":
     Main()
 
     
